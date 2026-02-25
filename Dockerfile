@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.2-apache
 
 RUN apt-get update && apt-get install -y \
     libpng-dev \
@@ -6,18 +6,20 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     zip \
     unzip \
-    git \
-    curl
+    git
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql mbstring bcmath
 
+RUN a2enmod rewrite
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www
+WORKDIR /var/www/html
 COPY . .
 
 RUN composer install --optimize-autoloader --no-scripts --no-interaction
 
-EXPOSE 8000
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+EXPOSE 80
