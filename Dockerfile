@@ -22,4 +22,5 @@ COPY . .
 RUN composer install --optimize-autoloader --no-scripts --no-interaction
 
 EXPOSE 8000
+RUN php artisan storage:link --no-interaction || true
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
