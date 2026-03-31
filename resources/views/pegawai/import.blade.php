@@ -66,6 +66,11 @@
                                 <td>Angka <code>1</code> s/d <code>14</code>, atau nama unit, atau singkatan (DJP, DJBC, dll)</td>
                             </tr>
                             <tr>
+                                <td><code>NKP</code></td>
+                                <td><span class="badge bg-danger">Wajib</span></td>
+                                <td>Angka <code>0</code> s/d <code>120</code>, contoh (90,5 atau 100,50)</td>
+                            </tr> 
+                            <tr>
                                 <td><code>Kategori Kinerja</code></td>
                                 <td><span class="badge bg-danger">Wajib</span></td>
                                 <td><code>Di atas ekspektasi</code>, <code>Sesuai ekspektasi</code>, <code>Di bawah ekspektasi</code></td>

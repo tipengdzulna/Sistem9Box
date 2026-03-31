@@ -90,7 +90,30 @@
     .table-custom thead th:first-child{border-radius:var(--r-md) 0 0 0}.table-custom thead th:last-child{border-radius:0 var(--r-md) 0 0}
     .table-custom td{padding:10px 14px;vertical-align:middle;border-color:var(--slate-100)}
     .table-custom tbody tr{transition:background .12s}.table-custom tbody tr:hover{background:var(--navy-50)}
-
+/* Column inline filters */
+.col-filter-wrap {
+    margin-top: 4px;
+}
+.col-filter-select {
+    width: 100%;
+    font-size: .65rem;
+    font-weight: 500;
+    padding: 2px 4px;
+    border: 1px solid var(--slate-200);
+    border-radius: 4px;
+    background: white;
+    color: var(--slate-600);
+    cursor: pointer;
+    appearance: auto;
+}
+.col-filter-select:focus {
+    outline: none;
+    border-color: var(--navy-500, #1a3d73);
+    box-shadow: 0 0 0 2px rgba(26,61,115,.15);
+}
+thead th {
+    vertical-align: top;
+}
     /* ── BADGES ── */
     .badge-box{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:var(--r-sm);font-weight:700;font-size:.88rem;color:#fff}
     .badge-box-1{background:var(--rose-500)}.badge-box-2{background:#e07730}.badge-box-3{background:var(--amber-500)}
@@ -174,7 +197,7 @@
                 <img src="{{ asset('images/logo-kemenkeu.png') }}" 
                      alt="Logo Kemenkeu" 
                      style="width:33px;height:33px;object-fit:contain">
-            <div><h1>Talent Mapping</h1><small>Kementerian Keuangan</small></div>
+            <div><h1>MT Kemenkeu</h1><small>Kementerian Keuangan</small></div>
         </div>
     </div>
 
@@ -212,6 +235,9 @@
         <a href="{{ route('pegawai.index') }}" class="sidebar-link {{ request()->routeIs('pegawai.index') ? 'active' : '' }}">
             <i class="bi bi-bar-chart-line"></i>Dashboard
         </a>
+        <a href="{{ route('pegawai.daftar') }}" class="sidebar-link {{ request()->routeIs('pegawai.daftar') ? 'active' : '' }}">
+            <i class="bi bi-people-fill"></i>Daftar Pegawai
+        </a>
         <a href="{{ route('pegawai.create') }}" class="sidebar-link {{ request()->routeIs('pegawai.create') ? 'active' : '' }}">
             <i class="bi bi-person-plus"></i>Input Manual
         </a>
@@ -247,9 +273,8 @@
             </span>
             @endif
             <span style="font-size:.82rem;color:var(--slate-400);font-weight:500;white-space:nowrap" class="d-none d-sm-inline">
-                <i class="bi bi-calendar3 me-1"></i>{{ now()->translatedFormat('d M Y') }}
-            </span>
-        </div>
+                <i class="bi bi-calendar3 me-1"></i><span id="liveClock"></span>
+            </div>
     </header>
 
     <main class="main-content">
@@ -304,6 +329,22 @@ function confirmLogout(){
         document.getElementById('logoutForm').submit();
     }
 }
+
+function updateClock() {
+    const now = new Date().toLocaleString('id-ID', {
+        timeZone: 'Asia/Jakarta',
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    });
+    document.getElementById('liveClock').textContent = now + ' WIB';
+}
+updateClock();
+setInterval(updateClock, 1000);
 </script>
 @stack('scripts')
 </body>
